@@ -25,6 +25,9 @@ int Randomize(int min, int max) //функция необходима для усоверщенствования функ
 	return newbye;
 }
 
+double random(double min, double max){
+	return min+fmod(static_cast<double>(rand()), max-min);
+}
 
 void FullRandom(int a[], int size, int min, int max) //случайные последовательности
 {
@@ -35,7 +38,7 @@ void FullRandom(int a[], int size, int min, int max) //случайные последовательно
 void db_FullRandom(double a[], int size, double min, double max)
 {
 	for(int i =0;i<size;i++){
-		a[i] = Randomize(min, max);
+		a[i] = random(min, max);
 	}
 }
 
@@ -55,12 +58,31 @@ void ReverseOrder(int a[], int size, int min, int max){
 
 
 
+
+void db_FullOrder(double a[], int size, double min, double max){
+	for(int i=0; i<size; i++){
+		double diff= max - min;
+		double multiplier= diff / size;
+		a[i]= (multiplier * i) + min;
+	}
+}
+
+void db_ReverseOrder(double a[], int size, double min, double max){
+	db_FullOrder(a, size, max, min);
+};
+
 int main(void){
 	int *a= new int[10];
 	double *arr = new double[10];
 	
-	db_FullRandom(arr, 10, 0.1, 1.0); //додумать randomize, ошибка массив с 0 из-за Randomize
+	db_FullOrder(arr, 10, 0.1, 1.0);
 	print_db(arr, 10);
+	
+	db_ReverseOrder(arr, 10, 0.1, 1.0);
+	print_db(arr, 10);
+	
+	/*db_FullRandom(arr, 10, 0.1, 1.0);
+	print_db(arr, 10);*///рандом double
 	
 	/*FullRandom(a, 10, 1, 10);
 	print(a, 10);*/ //рандомная int

@@ -2,6 +2,7 @@
 #include <random>
 #include <Windows.h>
 #include <cmath>
+#include <Algorithm>
 
 using namespace std;
 void print(int a[], int count)
@@ -101,9 +102,6 @@ void db_ChainSaw(double a[], int size, double min, double max, int step){
 };
 
 
-void Sinus(int a[], int size, int min, int max){
-	
-};
 
 
 void Step(int a[], int size, int min, int max, int step){
@@ -122,13 +120,85 @@ void Step(int a[], int size, int min, int max, int step){
 	}
 };
 
+void db_Step(double a[], int size, double min, double max, int step){
+	int h=size/step;
+	for(int i=0; i<size;i++){
+		a[i]=random(min, min + (max/step));
+		if((i+1)%(size/step)==0){
+			min += max / step;
+		}
+	}
+	if((h*step)<size){
+		double m= ((double(max-min))*step/(size));
+		for(int i=h*step; i<size;i++){
+			a[i]=m*(i-h*step)+min;
+		}
+	}
+};
+
+
+void Sinus(int a[], int size, int min, int max){
+	FullOrder(a, size, min, max);
+	for(int i=0; i<size; i++){
+		a[i]=sin(a[i])*10;	
+	}
+};
+
+
+void db_Sinus(double a[], int size, double min, double max){
+	db_FullOrder(a, size, min, max);
+	for(int i=0; i<size; i++){
+		a[i]=sin(a[i]);	
+	}
+};
+
+
+void Quas(int a[], int size, int min, int max, int step){
+	
+	for(int i=0; i<size; i++){
+		a[i]=Randomize(min+i+step,max+i+step);
+	}
+};
+
+void db_Quas(double a[], int size, double min, double max, double step){
+	
+	for(int i=0; i<size; i++){
+		a[i]=random(min+i+step,max+i+step);
+	}
+	
+};
+
+
+
 int main(void){
-	int *a= new int[10];
-	double *arr = new double[10];
+	int const size=30;
+	int *a= new int[size];
+	double *arr = new double[size];
 	
-	Step(a, 10, 1, 10, 2);
+	
+	Quas(a, size, 1, 32, 2);
+	print(a, size);
+	cout<<"///////"<<endl;
+	db_Quas(arr, size, 0.1, 30.5, 0.5);
+	print_db(arr, size);
+	/*FullRandom(a,size, 1, 10);
+	print(a, size);*/
+	
+	
+	/*
+	db_Sinus(arr, 10, 0.1, 0.9);
+	print_db(arr, 10);
+	cout<<"///////////////////"<<endl;
+	Sinus(a, 10, 2, 10);
+	print(a, 10);*/
+	
+	
+	
+	/*Step(a, 10, 1, 10, 2);
 	print(a, 10);
-	
+	cout<<"//////////////"<<endl;
+	db_Step(arr, 10, 0.1, 0.9, 2);
+	print_db(arr, 10);*/
 	
 	
 	/*ChainSaw(a, 10, 1, 10, 2); //пилозубчатая
